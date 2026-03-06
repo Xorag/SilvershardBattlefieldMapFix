@@ -1,0 +1,4 @@
+## Interface: 120001
+## Title: Silvershard Battlefield Map Fix
+## Version: v1.0
+SilvershardBattlefieldMapFix.lua
