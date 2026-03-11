@@ -1,14 +1,6 @@
 local addonName = ...
 local soundIDs = {567504, 567508}
 
--- Common IDs for Silvershard (Retail, Blitz, Brawl, Rated)
-local silvershardIDs = {
-    [598] = true,  -- Standard
-    [727] = true,  -- Modern/Blitz
-    [761] = true,  -- Alternate
-    [960] = true   -- Rated
-}
-
 local f = CreateFrame("Frame")
 f:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 f:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -27,10 +19,10 @@ local function RefreshBattlefieldMap()
 end
 
 local function CheckZone()
-    local zoneName, _, _, _, _, _, _, instanceID = GetInstanceInfo()
+    local zoneName = GetInstanceInfo()
     
-    -- Check if we are in Silvershard via ID OR Name
-    local isSilvershard = silvershardIDs[instanceID] or (zoneName == "Silvershard Mines")
+    -- Check if we are in Silvershard via Name string
+    local isSilvershard = (zoneName == "Silvershard Mines")
 
     if isSilvershard then
         -- Apply Sound Mutes
@@ -44,11 +36,12 @@ local function CheckZone()
             print("|cff00ff00Silvershard Fix:|r Map refresh and sound mutes active.")
         end
     else
-        -- Clean up when leaving
+        -- Clean up when leaving (Unmute sounds)
         for _, id in ipairs(soundIDs) do
             UnmuteSoundFile(id)
         end
         
+        -- Stop the ticker
         if f.ticker then
             f.ticker:Cancel()
             f.ticker = nil
