@@ -21,10 +21,10 @@ end
 local function CheckZone()
     local zoneName = GetInstanceInfo()
     
-    -- Check if we are in Silvershard via Name string
-    local isSilvershard = (zoneName == "Silvershard Mines")
+    -- Check if we are in Silvershard or Deephaul via Name string
+    local isTargetZone = (zoneName == "Silvershard Mines" or zoneName == "Deephaul Ravine")
 
-    if isSilvershard then
+    if isTargetZone then
         -- Apply Sound Mutes
         for _, id in ipairs(soundIDs) do
             MuteSoundFile(id)
